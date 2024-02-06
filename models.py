@@ -1,4 +1,5 @@
 import numpy as np
+from scipy import stats
 
 
 def imp_C(f, C):
@@ -14,15 +15,15 @@ def imp_Q(f, Q, a):
 
 
 def imp_W(f, W):
-    return (W / (2 * np.pi * f)) + (W / (1j * 2 * np.pi * f))
-
-
-def parallel(*args):
-    return 1 / sum([1 / arg for arg in args])
+    return (W / np.sqrt(2 * np.pi * f)) + (W / (1j * np.sqrt(2 * np.pi * f)))
 
 
 def series(*args):
     return sum(args)
+
+
+def parallel(*args):
+    return 1 / sum(1 / arg for arg in args)
 
 
 class Model:
@@ -42,6 +43,22 @@ class Model:
         self.params_num = len(self.params_names)
 
 
+class RC(Model):
+    def __init__(self):
+        super().__init__('RC')
+        self.params_names = ['R', 'C']
+        self.params_units = [r'\Omega', 'F']
+        super().set_params_num()
+
+    def func(self, params, f):
+        R, C = params
+        Z_real = R / (1 + (2 * np.pi * f * R * C)**2)
+        Z_imag = -(2 * np.pi * f * C * (R**2)) / \
+            (1 + (2 * np.pi * f * R * C) ** 2)
+        Z = Z_real + 1j * Z_imag
+        return Z
+
+
 class R_RC(Model):
     def __init__(self):
         super().__init__('R_RC')
@@ -51,7 +68,7 @@ class R_RC(Model):
 
     def func(self, params, f):
         Rs, Rp, Cp = params
-        Z = series(Rs, parallel(Rp, imp_C(f, Cp)))
+        Z = series(Rs, RC().func([Rp, Cp], f))
         return Z
 
 
@@ -64,8 +81,9 @@ class R_RC_RC(Model):
 
     def func(self, params, f):
         Rs, Rp1, Cp1, Rp2, Cp2 = params
-        Z = series(Rs, parallel(Rp1, imp_C(f, Cp1),
-                   parallel(Rp2, imp_C(f, Cp2))))
+        p1 = RC().func([Rp1, Cp1], f)
+        p2 = RC().func([Rp2, Cp2], f)
+        Z = series(Rs, p1, p2)
         return Z
 
 
@@ -79,9 +97,10 @@ class R_RC_RC_RC(Model):
 
     def func(self, params, f):
         Rs, Rp1, Cp1, Rp2, Cp2, Rp3, Cp3 = params
-        Z = series(Rs, parallel(Rp1, imp_C(f, Cp1),
-                   parallel(Rp2, imp_C(f, Cp2),
-                   parallel(Rp3, imp_C(f, Cp3)))))
+        p1 = RC().func([Rp1, Cp1], f)
+        p2 = RC().func([Rp2, Cp2], f)
+        p3 = RC().func([Rp3, Cp3], f)
+        Z = series(Rs, p1, p2, p3)
         return Z
 
 
@@ -95,7 +114,16 @@ class R_RCW(Model):
 
     def func(self, params, f):
         Rs, Rp, Cp, W = params
-        Z = series(Rs, parallel(Rp, series(imp_C(f, Cp), imp_W(f, W))))
+        Z_R = Rs
+        Z_W = imp_W(f, W)
+        Z_C = imp_C(f, Cp)
+        Z = series(
+            Rs,
+            parallel(
+                Z_R,
+                series(Z_W, Z_C)
+            )
+        )
         return Z
 
 

@@ -56,6 +56,7 @@ def plot_impedance_fit(x, data, model, title="Impedance Fit"):
     ax.grid(True, alpha=0.5, linestyle='--')
 
     fig.savefig(f"plots/{title}.png")
+    plt.close(fig)
 
     return params, fit, cost
 
@@ -75,23 +76,23 @@ def fit_diode(diode, date, exp_type, models):
 
 
 def main():
-    models = [R_RC(), R_RC_RC(), R_RC_RC_RC(), R_RCW()]
+    # models = [R_RC(), R_RC_RC(), R_RC_RC_RC(), R_RCW()]
+    models = [R_RC(), R_RC_RC(), R_RC_RC_RC()]
 
     exp_type = "BIAS_SCAN"
     date = "2024-01-15"
 
+    diode = "1N4001"
+    fit_diode(diode, date, exp_type, models)
 
-    # diode = "1N4001"
-    # fit_diode(diode, date, exp_type, models)
+    diode = "1N4002"
+    fit_diode(diode, date, exp_type, models)
 
-    # diode = "1N4002"
-    # fit_diode(diode, date, exp_type, models)
+    diode = "1N4003"
+    fit_diode(diode, date, exp_type, models)
 
-    # diode = "1N4003"
-    # fit_diode(diode, date, exp_type, models)
-
-    # diode = "1N4007"
-    # fit_diode(diode, date, exp_type, models)
+    diode = "1N4007"
+    fit_diode(diode, date, exp_type, models)
 
 
 if __name__ == '__main__':
