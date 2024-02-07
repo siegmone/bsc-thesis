@@ -15,8 +15,8 @@ logging.basicConfig(
     filename='tests/test.log', filemode='w'
 )
 
-skip_plot = True
-skip_circ = True
+skip_plot = False
+skip_circ = False
 flag_imp = True
 flag_rcw = True
 skip_seed = True
@@ -44,7 +44,7 @@ def plot_impedance_fit(params, f, model, type):
         data += noise * np.random.rand(f.shape[0])
 
     params_fit, data_fit, cost = best_fit_complex(
-        f, data, model, sigma=0.111, convergence_threshold=100)
+        f, data, model, sigma=0.4, convergence_threshold=100)
 
     fig, ax = plt.subplots(figsize=(12, 9))
     scatter = ax.scatter(data.real, -data.imag, label="data",

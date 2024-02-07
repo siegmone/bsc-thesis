@@ -24,7 +24,7 @@ def fit_complex(params0, x, data, model):
             loss, params0,
             bounds=(0, np.inf),
             args=(x, data, model),
-            method='dogbox',
+            method='trf',
             loss='linear',
             ftol=1e-8,
             gtol=1e-8,
@@ -34,14 +34,14 @@ def fit_complex(params0, x, data, model):
     return params_fit, data_fit
 
 
-def best_fit_complex(x, data, model, convergence_threshold=30, sigma=0.1):
+def best_fit_complex(x, data, model, convergence_threshold=100, sigma=0.1):
     np.random.seed(32)
     params0 = [1 for _ in range(model.params_num)]
     best_params_fit, best_data_fit = fit_complex(params0, x, data, model)
     best_cost = np.inf
     convergence_counter = 0
     last_params_fit = None
-    while convergence_counter >= convergence_threshold:
+    while convergence_counter < convergence_threshold:
         params_fit, data_fit = fit_complex(params0, x, data, model)
         # TEST #######################
         # print("\nCounter:", convergence_counter)
