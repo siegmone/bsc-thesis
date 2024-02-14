@@ -193,11 +193,13 @@ def plot_total_capacitance(stats, diode, model_name=None, bias=None):
     sorter = data[:, 0].argsort()
     data = data[sorter]
     fig, ax = plt.subplots(figsize=(12, 9))
-    ax.plot(data[:, 0], data[:, 1], label=labels[model_name], marker='x')
+    ax.plot(data[:len(data) - 4, 0], data[:len(data) - 4, 1],
+            label=labels[model_name], marker='x')
     for name, values in capacitances.items():
         if len(values) > 0:
             values_sort = np.array(values)[sorter]
-            # ax.plot(data[:, 0], values_sort, label=name)
+            ax.plot(data[:len(data) - 4, 0],
+                    values_sort[:len(data) - 4], label=name)
     ax.set_title(
         f"Total Capacitance vs Bias for {diode} - {model_name} fit")
     ax.set_xlabel("Bias (mV)")
@@ -226,6 +228,7 @@ def plot_series_resistance(stats, diode, model_name=None, bias=None):
         f"Series Resistance vs Bias for {diode} - {model_name} fit")
     ax.set_xlabel("Bias (mV)")
     ax.set_ylabel(r"${Series Resistance (\Omega)}$")
+    ax.set_yscale('log')
     ax.grid(True, alpha=0.5, linestyle='--')
     ax.legend(loc='upper left')
     fig.savefig(f"plots/properties/{diode}_{model_name}_series_resistance.png")
@@ -263,6 +266,7 @@ def plot_parallel_resistances(stats, diode, model_name=None, bias=None):
         f"Resistance vs Bias for {diode} - {model_name} fit")
     ax.set_xlabel("Bias (mV)")
     ax.set_ylabel(r"$Resistance (\Omega)$")
+    ax.set_yscale('log')
     ax.grid(True, alpha=0.5, linestyle='--')
     ax.legend(loc='upper left')
     fig.savefig(f"plots/properties/{diode}_{model_name}_resistances.png")
@@ -282,6 +286,7 @@ def main():
     exp_type = "BIAS_SCAN"
     date = "2024-01-15"
     diodes = ["1N4001", "1N4002", "1N4003", "1N4007"]
+    # diodes = ["1N4007"]
 
     # stats: [diode, bias, model, cost, *params]
 
@@ -296,12 +301,12 @@ def main():
         )
         for key, val in failures.items():
             logging.error(f"Fit failed for: {key} with message: {val}")
-            time.sleep(0.1)
         for model in model_names:
             plot_total_capacitance(stats, diode, model_name=model)
             plot_series_resistance(stats, diode, model_name=model)
             plot_parallel_resistances(stats, diode, model_name=model)
         write_stats(stats, f"stats/{diode}_{date}_{exp_type}.csv")
+        time.sleep(0.1)
     print("Done!")
 
 

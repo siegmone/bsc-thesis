@@ -119,8 +119,8 @@ class R_RCW(Model):
         Z = series(
             Rs,
             parallel(
-                Z_R,
-                series(Z_W, Z_C)
+                Z_C,
+                series(Z_R, Z_W)
             )
         )
         return Z

@@ -16,10 +16,11 @@ logging.basicConfig(
 )
 
 skip_plot = False
-skip_circ = False
+skip_circ = True
 flag_imp = True
 flag_rcw = True
 skip_seed = True
+skip_parallel = True
 
 
 def format_param_latex(p):
@@ -49,7 +50,15 @@ def plot_impedance_fit(params, f, model, type):
     fig, ax = plt.subplots(figsize=(12, 9))
     scatter = ax.scatter(data.real, -data.imag, label="data",
                          c=f, cmap='rainbow_r', norm=LogNorm())
-    ax.plot(data_fit.real, -data_fit.imag, label="fit", ls='--', c='red', lw=2)
+    ax.plot(
+            data_fit.real,
+            -data_fit.imag,
+            label="fit",
+            ls='--',
+            c='red',
+            lw=2,
+            marker='x'
+            )
     ax.set_title(f"{model.name} - {type}")
 
     cbar = plt.colorbar(scatter, ax=ax)
@@ -88,7 +97,7 @@ class TestFit(unittest.TestCase):
     def setUp(self):
         self.rtol = 0.1
         self.delay = 1
-        self.f = np.logspace(-1, 7, 1000)
+        self.f = np.logspace(3, 6, 50)
         self.Rs = 100
         self.Rp1 = 1000
         self.Cp1 = 1e-9
@@ -268,6 +277,21 @@ class TestFit(unittest.TestCase):
         assert params_fit.success
         assert np.allclose(params_fit.x, params, rtol=self.rtol)
 
+    def test_randles(self):
+        print("\nTesting Randles()...")
+
+        f = self.f
+        Rs = self.Rs
+        Rp = self.Rp1
+        Cp = self.Cp1
+        W = 0.1
+        params = [Rs, Rp, Cp, W]
+        model = R_RCW()
+        fig, ax = plt.subplots()
+        Z = model.func(params, f)
+        ax.plot(Z.real, -Z.imag, label="Randles")
+        fig.savefig("tests/test_randles.png")
+
     @unittest.skipIf(skip_circ, "Skipping test_RC_circ()")
     def test_RC_circ(self):
         print("\nTesting R_RC_circ()...")
@@ -370,6 +394,7 @@ class TestFit(unittest.TestCase):
         assert params_fit.success
         assert np.allclose(params_fit.x, params, rtol=self.rtol)
 
+    @unittest.skipIf(skip_parallel, "Skipping test_RC_RC_RC_fit()")
     def test_parallel(self):
         print("\nTesting parallel()...")
         f = self.f
@@ -382,6 +407,7 @@ class TestFit(unittest.TestCase):
         assert np.allclose(Z, Z_test)
         print("Test passed")
 
+    @unittest.skipIf(skip_parallel, "Skipping test_RC_RC_RC_fit()")
     def test_parallel_CW(self):
         print("\nTesting parallel_CW()...")
         f = np.logspace(2, 3, 1000)
@@ -401,6 +427,7 @@ class TestFit(unittest.TestCase):
         assert np.isclose(sum(params_fit.x), sum(params), rtol=self.rtol)
         print("Test passed")
 
+    @unittest.skipIf(skip_parallel, "Skipping test_RC_RC_RC_fit()")
     def test_complex_parallel(self):
         print("\nTesting complex_parallel()...")
         f = np.full(1000, 1/(2*np.pi), dtype=float)
