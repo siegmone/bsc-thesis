@@ -21,15 +21,68 @@ def format_param_latex(p):
     return formatted_number
 
 
-def plot_bodeplot(x, Z, theta, fit, params, model, title="Bodeplot Fit"):
-    if not params.success:
-        logging.info(f"Fit failed: {params.message}")
+def get_impedance_data(filepath):
+    df = pd.read_csv(filepath, skiprows=3, sep=', ', engine='python')
+    df = df[df["Frequency (Hz)"].notna()]
+    freq = np.array(df["Frequency (Hz)"])
+    Z = np.array(df["Z' (Ohm)"]) + np.array(df["Z'' (Ohm)"]) * 1j
+    freq, Z = preprocessing.ignoreBelowX(freq, Z)
+    theta = np.abs(np.angle(Z, deg=True))
+    return freq, Z, theta
 
-    theta_fit = np.abs(np.angle(fit, deg=True))
 
+def plot_impedance_fit(x, data, fit, params, model, title="Impedance Fit"):
     plt.style.use('seaborn-v0_8-colorblind')
     fig, ax = plt.subplots(figsize=(12, 9))
+    scatter = ax.scatter(
+        data.real,
+        -data.imag,
+        label="Impedance Data",
+        c=x,
+        cmap='rainbow_r',
+        ec='k',
+        vmin=1, vmax=1e6,
+        zorder=2
+    )
+    xerr = 0.01 * np.abs(data.real)
+    yerr = 0.01 * np.abs(data.imag)
+    ax.errorbar(
+        data.real,
+        -data.imag,
+        xerr=xerr,
+        yerr=yerr,
+        ecolor='k',
+        elinewidth=0.5,
+        capsize=2,
+        fmt='none',
+        zorder=1
+    )
+    ax.plot(fit.real, -fit.imag, label="Best Fit", ls='--', c='red')
+    cbar = plt.colorbar(scatter, ax=ax, extend='both')
+    cbar.set_label(r'$\text{Frequency (Hz)}$', rotation=0, labelpad=20)
+    text = ""
+    for param_name, param_unit, param in zip(model.params_names, model.params_units, params.x):
+        param = format_param_latex(param)
+        text += f"${param_name}={param} {param_unit}$\n"
+    text = text.strip()
+    props = dict(boxstyle='round', fc='white',
+                 ec='blue', lw=2, pad=1, alpha=0.5)
+    ax.text(0.42, 0.30, text, transform=ax.transAxes, fontsize=10,
+            verticalalignment='top', bbox=props)
+    ax.set_title(title)
+    ax.set_xlabel(r"$Z_\text{Re} (\Omega)$")
+    ax.set_ylabel(r"$-Z_\text{Im} (\Omega)$")
+    ax.set_ylim(bottom=0)
+    ax.grid(True, alpha=0.5, linestyle='--')
+    ax.legend(loc='upper left', fontsize=12)
+    fig.savefig(f"plots/bias_scan/{title}.png")
+    # fig.savefig(f"plots/bias_scan/{title}.svg")
+    plt.close(fig)
 
+
+def plot_bodeplot(x, Z, theta, fit, params, model, title="Bodeplot Fit"):
+    plt.style.use('seaborn-v0_8-colorblind')
+    fig, ax = plt.subplots(figsize=(12, 9))
     ax.scatter(
         x,
         np.abs(Z),
@@ -38,9 +91,26 @@ def plot_bodeplot(x, Z, theta, fit, params, model, title="Bodeplot Fit"):
         ec='k',
         zorder=2
     )
+    ax.plot(x, np.abs(fit), label=r"$|Z|$ fit", ls='--', c='blue')
+    ax.set_title(title)
+    ax.set_xlabel(r"$\text{Frequency (Hz)}$")
+    ax.set_ylabel(r"$|Z| (\Omega)$")
+    ax.set_xscale('log')
+    ax.set_yscale('log')
+    # ax.set_ylim(bottom=0)
+    # ax.set_yticks(
+    #     np.linspace(
+    #         ax.get_yticks()[0],
+    #         ax.get_yticks()[-1],
+    #         13
+    #     )
+    # )
+    # ax.grid(True, alpha=0.5, linestyle='--')
+    ax.legend(loc='lower left', bbox_to_anchor=(0.0, 0.25), fontsize=12)
+
+    theta_fit = np.abs(np.angle(fit, deg=True))
     ax2 = ax.twinx()
     ax2.set_ylabel('Phase (°)', color='red')
-
     ax2.scatter(
         x,
         theta,
@@ -49,10 +119,7 @@ def plot_bodeplot(x, Z, theta, fit, params, model, title="Bodeplot Fit"):
         ec='k',
         zorder=2
     )
-
-    ax.plot(x, np.abs(fit), label=r"$|Z|$ fit", ls='--', c='blue')
     ax2.plot(x, theta_fit, label=r"$\theta$ fit", ls='--', c='red')
-
     yerr = 0.1
     ax2.errorbar(
         x,
@@ -65,93 +132,20 @@ def plot_bodeplot(x, Z, theta, fit, params, model, title="Bodeplot Fit"):
         fmt='none',
         zorder=1
     )
-
-    ax.set_title(title)
-    ax.set_xlabel(r"$\text{Frequency (Hz)}$")
-    ax.set_ylabel(r"$|Z| (\Omega)$")
-    ax.set_xscale('log')
-    # ax.set_yscale('log')
+    ax2.set_ylim(0, 90)
+    ax2.set_yticks(
+        np.linspace(
+            ax2.get_yticks()[0],
+            ax2.get_yticks()[-1],
+            10
+        )
+    )
     ax.grid(True, alpha=0.5, linestyle='--')
 
-    ax.set_ylim(bottom=0)
-
-    ax.legend(loc='lower left', bbox_to_anchor=(0.0, 0.25), fontsize=12)
     ax2.legend(loc='lower left', bbox_to_anchor=(0.2, 0.26), fontsize=12)
 
     fig.savefig(f"plots/bias_scan/{title}_bode.png")
     # fig.savefig(f"plots/bodeplot/{title}.svg")
-    plt.close(fig)
-
-
-def get_impedance_data(filepath):
-    df = pd.read_csv(filepath, skiprows=3, sep=', ', engine='python')
-    df = df[df["Frequency (Hz)"].notna()]
-    freq = np.array(df["Frequency (Hz)"])
-    Z = np.array(df["Z' (Ohm)"]) + np.array(df["Z'' (Ohm)"]) * 1j
-    freq, Z = preprocessing.ignoreBelowX(freq, Z)
-    theta = np.abs(np.angle(Z, deg=True))
-    return freq, Z, theta
-
-
-def plot_impedance_fit(x, data, fit, params, model, title="Impedance Fit"):
-    if not params.success:
-        logging.info(f"Fit failed: {params.message}")
-
-    data = data.real - data.imag * 1j
-    fit = fit.real - fit.imag * 1j
-
-    plt.style.use('seaborn-v0_8-colorblind')
-    fig, ax = plt.subplots(figsize=(12, 9))
-
-    scatter = ax.scatter(
-        data.real,
-        data.imag,
-        label="Impedance Data",
-        c=x,
-        cmap='rainbow_r',
-        ec='k',
-        vmin=1, vmax=1e6,
-        zorder=2
-    )
-    xerr = 0.01 * np.abs(data.real)
-    yerr = 0.01 * np.abs(data.imag)
-    ax.errorbar(
-        data.real,
-        data.imag,
-        xerr=xerr,
-        yerr=yerr,
-        ecolor='k',
-        elinewidth=0.5,
-        capsize=2,
-        fmt='none',
-        zorder=1
-    )
-
-    ax.plot(fit.real, fit.imag, label="Best Fit", ls='--', c='red')
-
-    cbar = plt.colorbar(scatter, ax=ax, extend='both')
-    cbar.set_label(r'$\text{Frequency (Hz)}$', rotation=0, labelpad=20)
-
-    text = ""
-    for param_name, param_unit, param in zip(model.params_names, model.params_units, params.x):
-        param = format_param_latex(param)
-        text += f"${param_name}={param} {param_unit}$\n"
-    text = text.strip()
-    props = dict(boxstyle='round', fc='white',
-                 ec='blue', lw=2, pad=1, alpha=0.5)
-    ax.text(0.42, 0.30, text, transform=ax.transAxes, fontsize=10,
-            verticalalignment='top', bbox=props)
-
-    ax.set_title(title)
-    ax.set_xlabel(r"$Z_\text{Re} (\Omega)$")
-    ax.set_ylabel(r"$-Z_\text{Im} (\Omega)$")
-    ax.set_ylim(bottom=0)
-    ax.grid(True, alpha=0.5, linestyle='--')
-
-    ax.legend(loc='upper left', fontsize=12)
-
-    fig.savefig(f"plots/bias_scan/{title}.png")
-    # fig.savefig(f"plots/bias_scan/{title}.svg")
     plt.close(fig)
 
 
@@ -177,6 +171,7 @@ def fit_diode(diode, date, exp_type, models, sigma=0.1, convergence_threshold=30
                 convergence_threshold=convergence_threshold
             )
             chi2_pvalue = chi2_test_pvalue_phase(Z, fit, model, params)
+            logging.info(f"Fit failed: {params.message}")
             logging.info(
                 f"{diode} @ {bias} with {model.name}: p-value = {chi2_pvalue:.6e} < 0.05"
             )

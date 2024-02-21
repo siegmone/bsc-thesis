@@ -1,7 +1,6 @@
 import numpy as np
 from scipy.optimize import least_squares
 from scipy.stats import chi2
-import time
 
 
 def residuals(params, x, data, model) -> np.ndarray:
@@ -103,7 +102,6 @@ def chi2_test_pvalue(data, data_fit, model, params_fit) -> float:
     dof = len(data) * 2 - model.params_num
     p_value = 1 - chi2.cdf(chi2_val, dof)
     return p_value
-
 
 def chi2_test_pvalue_phase(data, data_fit, model, params_fit) -> float:
     res = residuals_phase(params_fit.x, data, data_fit, model)
