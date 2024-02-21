@@ -14,15 +14,15 @@ def main():
     convergence_threshold = 200
 
     # models = [R_RC(), R_RC_RC(), R_RC_RC_RC(), R_RCW()]
-    models = [R_RC(), R_RC_RC(), R_RC_RC_RC()]
-    # models = [R_RC_RC()]
+    # models = [R_RC(), R_RC_RC(), R_RC_RC_RC()]
+    models = [R_RC_RC()]
 
     model_names = [model.name for model in models]
 
     exp_type = "BIAS_SCAN"
     date = "2024-01-15"
-    diodes = ["1N4001", "1N4002", "1N4003", "1N4007"]
-    # diodes = ["1N4007"]
+    # diodes = ["1N4001", "1N4002", "1N4003", "1N4007"]
+    diodes = ["1N4007"]
 
     # stats: [diode, bias, model, cost, *params]
     for diode in diodes:
