@@ -1,7 +1,9 @@
-from utils import fit_diode, write_stats, plot_total_capacitance, plot_series_resistance, plot_parallel_resistances
 from models import R_RC, R_RC_RC, R_RC_RC_RC
 import time
 import logging
+from fit import fit_diode
+from plot import plot_total_capacitance, plot_series_resistance, plot_parallel_resistances
+from utils import write_stats
 
 logging.basicConfig(
     level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s',

@@ -1,42 +1,42 @@
-2024-02-21 11:15:58,986 - INFO - Fit failed: `xtol` termination condition is satisfied.
-2024-02-21 11:15:58,986 - INFO - 1N4007 @ 625 with R_RC_RC: p-value = 0.000000e+00 < 0.05
-2024-02-21 11:16:01,067 - INFO - Fit failed: `xtol` termination condition is satisfied.
-2024-02-21 11:16:01,067 - INFO - 1N4007 @ 375 with R_RC_RC: p-value = 0.000000e+00 < 0.05
-2024-02-21 11:16:02,993 - INFO - Fit failed: `xtol` termination condition is satisfied.
-2024-02-21 11:16:02,993 - INFO - 1N4007 @ 275 with R_RC_RC: p-value = 0.000000e+00 < 0.05
-2024-02-21 11:16:04,764 - INFO - Fit failed: `xtol` termination condition is satisfied.
-2024-02-21 11:16:04,764 - INFO - 1N4007 @ 650 with R_RC_RC: p-value = 0.000000e+00 < 0.05
-2024-02-21 11:16:06,264 - INFO - Fit failed: `xtol` termination condition is satisfied.
-2024-02-21 11:16:06,264 - INFO - 1N4007 @ 400 with R_RC_RC: p-value = 0.000000e+00 < 0.05
-2024-02-21 11:16:07,568 - INFO - Fit failed: `xtol` termination condition is satisfied.
-2024-02-21 11:16:07,568 - INFO - 1N4007 @ 225 with R_RC_RC: p-value = 0.000000e+00 < 0.05
-2024-02-21 11:16:10,776 - INFO - Fit failed: `xtol` termination condition is satisfied.
-2024-02-21 11:16:10,776 - INFO - 1N4007 @ 550 with R_RC_RC: p-value = 0.000000e+00 < 0.05
-2024-02-21 11:16:12,190 - INFO - Fit failed: `xtol` termination condition is satisfied.
-2024-02-21 11:16:12,190 - INFO - 1N4007 @ 200 with R_RC_RC: p-value = 0.000000e+00 < 0.05
-2024-02-21 11:16:14,582 - INFO - Fit failed: `xtol` termination condition is satisfied.
-2024-02-21 11:16:14,582 - INFO - 1N4007 @ 525 with R_RC_RC: p-value = 0.000000e+00 < 0.05
-2024-02-21 11:16:16,114 - INFO - Fit failed: `xtol` termination condition is satisfied.
-2024-02-21 11:16:16,114 - INFO - 1N4007 @ 250 with R_RC_RC: p-value = 0.000000e+00 < 0.05
-2024-02-21 11:16:17,977 - INFO - Fit failed: `xtol` termination condition is satisfied.
-2024-02-21 11:16:17,977 - INFO - 1N4007 @ 350 with R_RC_RC: p-value = 0.000000e+00 < 0.05
-2024-02-21 11:16:20,619 - INFO - Fit failed: `xtol` termination condition is satisfied.
-2024-02-21 11:16:20,619 - INFO - 1N4007 @ 325 with R_RC_RC: p-value = 0.000000e+00 < 0.05
-2024-02-21 11:16:21,818 - INFO - Fit failed: `xtol` termination condition is satisfied.
-2024-02-21 11:16:21,819 - INFO - 1N4007 @ 300 with R_RC_RC: p-value = 0.000000e+00 < 0.05
-2024-02-21 11:16:24,144 - INFO - Fit failed: `xtol` termination condition is satisfied.
-2024-02-21 11:16:24,144 - INFO - 1N4007 @ 675 with R_RC_RC: p-value = 6.997164e-01 < 0.05
-2024-02-21 11:16:26,619 - INFO - Fit failed: `xtol` termination condition is satisfied.
-2024-02-21 11:16:26,619 - INFO - 1N4007 @ 450 with R_RC_RC: p-value = 0.000000e+00 < 0.05
-2024-02-21 11:16:28,531 - INFO - Fit failed: `xtol` termination condition is satisfied.
-2024-02-21 11:16:28,531 - INFO - 1N4007 @ 500 with R_RC_RC: p-value = 0.000000e+00 < 0.05
-2024-02-21 11:16:29,924 - INFO - Fit failed: `xtol` termination condition is satisfied.
-2024-02-21 11:16:29,924 - INFO - 1N4007 @ 700 with R_RC_RC: p-value = 1.000000e+00 < 0.05
-2024-02-21 11:16:32,854 - INFO - Fit failed: `xtol` termination condition is satisfied.
-2024-02-21 11:16:32,854 - INFO - 1N4007 @ 425 with R_RC_RC: p-value = 0.000000e+00 < 0.05
-2024-02-21 11:16:34,665 - INFO - Fit failed: `xtol` termination condition is satisfied.
-2024-02-21 11:16:34,665 - INFO - 1N4007 @ 475 with R_RC_RC: p-value = 0.000000e+00 < 0.05
-2024-02-21 11:16:37,889 - INFO - Fit failed: `xtol` termination condition is satisfied.
-2024-02-21 11:16:37,889 - INFO - 1N4007 @ 575 with R_RC_RC: p-value = 0.000000e+00 < 0.05
-2024-02-21 11:16:41,947 - INFO - Fit failed: `ftol` termination condition is satisfied.
-2024-02-21 11:16:41,947 - INFO - 1N4007 @ 600 with R_RC_RC: p-value = 0.000000e+00 < 0.05
+2024-02-23 19:10:11,983 - INFO - Fit failed: `xtol` termination condition is satisfied.
+2024-02-23 19:10:11,983 - INFO - Chi2 test failed for 1N4007 @ 625 with R_RC_RC with p-value: 0.0
+2024-02-23 19:10:13,896 - INFO - Fit failed: `xtol` termination condition is satisfied.
+2024-02-23 19:10:13,896 - INFO - Chi2 test failed for 1N4007 @ 375 with R_RC_RC with p-value: 0.0
+2024-02-23 19:10:15,093 - INFO - Fit failed: `xtol` termination condition is satisfied.
+2024-02-23 19:10:15,093 - INFO - Chi2 test failed for 1N4007 @ 275 with R_RC_RC with p-value: 0.0
+2024-02-23 19:10:17,218 - INFO - Fit failed: `xtol` termination condition is satisfied.
+2024-02-23 19:10:17,218 - INFO - Chi2 test failed for 1N4007 @ 650 with R_RC_RC with p-value: 0.0
+2024-02-23 19:10:18,859 - INFO - Fit failed: `xtol` termination condition is satisfied.
+2024-02-23 19:10:18,859 - INFO - Chi2 test failed for 1N4007 @ 400 with R_RC_RC with p-value: 0.0
+2024-02-23 19:10:19,910 - INFO - Fit failed: `xtol` termination condition is satisfied.
+2024-02-23 19:10:19,910 - INFO - Chi2 test failed for 1N4007 @ 225 with R_RC_RC with p-value: 0.0
+2024-02-23 19:10:21,985 - INFO - Fit failed: `xtol` termination condition is satisfied.
+2024-02-23 19:10:21,985 - INFO - Chi2 test failed for 1N4007 @ 550 with R_RC_RC with p-value: 0.0
+2024-02-23 19:10:23,185 - INFO - Fit failed: `xtol` termination condition is satisfied.
+2024-02-23 19:10:23,185 - INFO - Chi2 test failed for 1N4007 @ 200 with R_RC_RC with p-value: 0.0
+2024-02-23 19:10:26,246 - INFO - Fit failed: `xtol` termination condition is satisfied.
+2024-02-23 19:10:26,246 - INFO - Chi2 test failed for 1N4007 @ 525 with R_RC_RC with p-value: 0.0
+2024-02-23 19:10:27,535 - INFO - Fit failed: `xtol` termination condition is satisfied.
+2024-02-23 19:10:27,535 - INFO - Chi2 test failed for 1N4007 @ 250 with R_RC_RC with p-value: 0.0
+2024-02-23 19:10:30,449 - INFO - Fit failed: `xtol` termination condition is satisfied.
+2024-02-23 19:10:30,449 - INFO - Chi2 test failed for 1N4007 @ 350 with R_RC_RC with p-value: 0.0
+2024-02-23 19:10:31,664 - INFO - Fit failed: `xtol` termination condition is satisfied.
+2024-02-23 19:10:31,664 - INFO - Chi2 test failed for 1N4007 @ 325 with R_RC_RC with p-value: 0.0
+2024-02-23 19:10:34,147 - INFO - Fit failed: `xtol` termination condition is satisfied.
+2024-02-23 19:10:34,147 - INFO - Chi2 test failed for 1N4007 @ 300 with R_RC_RC with p-value: 0.0
+2024-02-23 19:10:37,699 - INFO - Fit failed: `xtol` termination condition is satisfied.
+2024-02-23 19:10:37,699 - INFO - Chi2 test failed for 1N4007 @ 675 with R_RC_RC with p-value: 0.0
+2024-02-23 19:10:41,364 - INFO - Fit failed: `xtol` termination condition is satisfied.
+2024-02-23 19:10:41,364 - INFO - Chi2 test failed for 1N4007 @ 450 with R_RC_RC with p-value: 0.0
+2024-02-23 19:10:43,175 - INFO - Fit failed: `xtol` termination condition is satisfied.
+2024-02-23 19:10:43,175 - INFO - Chi2 test failed for 1N4007 @ 500 with R_RC_RC with p-value: 0.0
+2024-02-23 19:10:44,797 - INFO - Fit failed: `xtol` termination condition is satisfied.
+2024-02-23 19:10:44,797 - INFO - Chi2 test failed for 1N4007 @ 700 with R_RC_RC with p-value: 0.0
+2024-02-23 19:10:47,803 - INFO - Fit failed: `xtol` termination condition is satisfied.
+2024-02-23 19:10:47,803 - INFO - Chi2 test failed for 1N4007 @ 425 with R_RC_RC with p-value: 0.0
+2024-02-23 19:10:50,623 - INFO - Fit failed: `xtol` termination condition is satisfied.
+2024-02-23 19:10:50,623 - INFO - Chi2 test failed for 1N4007 @ 475 with R_RC_RC with p-value: 0.0
+2024-02-23 19:10:52,603 - INFO - Fit failed: `xtol` termination condition is satisfied.
+2024-02-23 19:10:52,603 - INFO - Chi2 test failed for 1N4007 @ 575 with R_RC_RC with p-value: 0.0
+2024-02-23 19:10:56,869 - INFO - Fit failed: `xtol` termination condition is satisfied.
+2024-02-23 19:10:56,869 - INFO - Chi2 test failed for 1N4007 @ 600 with R_RC_RC with p-value: 0.0

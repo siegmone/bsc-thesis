@@ -1,6 +1,86 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from utils import filter_stats
+from utils import filter_stats, format_param_latex
+
+
+def plot_impedance_fit(x, data, fit, params, model, title="Impedance Fit"):
+    plt.style.use('seaborn-v0_8-colorblind')
+    fig, ax = plt.subplots(figsize=(12, 9))
+    scatter = ax.scatter(
+        data.real, -data.imag,
+        label="Impedance Data", c=x, cmap='rainbow_r', ec='k',
+        vmin=1, vmax=1e6, zorder=2
+    )
+    xerr = yerr = 0.01 * np.abs(data)
+    ax.errorbar(
+        data.real, -data.imag,
+        xerr=xerr, yerr=yerr,
+        ecolor='k', elinewidth=0.5, capsize=2, fmt='none', zorder=1
+    )
+    ax.plot(fit.real, -fit.imag, label="Best Fit", ls='--', c='red')
+    cbar = plt.colorbar(scatter, ax=ax, extend='both')
+    cbar.set_label(r'$\text{Frequency (Hz)}$', rotation=0, labelpad=20)
+    text = ""
+    for param_name, param_unit, param in zip(model.params_names, model.params_units, params.x):
+        param = format_param_latex(param)
+        text += f"${param_name}={param} {param_unit}$\n"
+    text = text.strip()
+    props = dict(boxstyle='round', fc='white',
+                 ec='blue', lw=2, pad=1, alpha=0.5)
+    ax.text(0.42, 0.30, text, transform=ax.transAxes, fontsize=10,
+            verticalalignment='top', bbox=props)
+    ax.set_title(title)
+    ax.set_xlabel(r"$Z_\text{Re} (\Omega)$")
+    ax.set_ylabel(r"$-Z_\text{Im} (\Omega)$")
+    ax.set_ylim(bottom=0)
+    ax.grid(True, alpha=0.5, linestyle='--')
+    ax.legend(loc='upper left', fontsize=12)
+    fig.savefig(f"plots/bias_scan/{title}.png")
+    plt.close(fig)
+
+
+def plot_bodeplot(x, Z, theta, fit, params, model, title="Bodeplot Fit"):
+    plt.style.use('seaborn-v0_8-colorblind')
+    fig, ax = plt.subplots(figsize=(12, 9))
+    ax.scatter(
+        x, np.abs(Z),
+        label=r"$|Z|$", c='blue', ec='k', zorder=2
+    )
+    ax.plot(x, np.abs(fit), label=r"$|Z|$ fit", ls='--', c='blue')
+    ax.set_title(title)
+    ax.set_xlabel(r"$\text{Frequency (Hz)}$")
+    ax.set_ylabel(r"$|Z| (\Omega)$")
+    ax.set_xscale('log')
+    ax.legend(loc='lower left', bbox_to_anchor=(0.0, 0.25), fontsize=12)
+
+    theta_fit = np.abs(np.angle(fit, deg=True))
+    ax2 = ax.twinx()
+    ax2.set_ylabel('Phase (°)', color='red')
+    ax2.scatter(
+        x, theta,
+        label=r"$\theta$", c='green', ec='k', zorder=2
+    )
+    ax2.plot(x, theta_fit, label=r"$\theta$ fit", ls='--', c='red')
+    yerr = 0.1
+    ax2.errorbar(
+        x, theta,
+        xerr=0, yerr=yerr,
+        ecolor='k', elinewidth=0.5, capsize=2, fmt='none', zorder=1
+    )
+    ax2.set_ylim(0, 90)
+    ax2.set_yticks(
+        np.linspace(
+            ax2.get_yticks()[0],
+            ax2.get_yticks()[-1],
+            10
+        )
+    )
+    ax.grid(True, alpha=0.5, linestyle='--')
+
+    ax2.legend(loc='lower left', bbox_to_anchor=(0.2, 0.26), fontsize=12)
+
+    fig.savefig(f"plots/bias_scan/{title}_bode.png")
+    plt.close(fig)
 
 
 def plot_total_capacitance(stats, diode, model_name=None, bias=None):
