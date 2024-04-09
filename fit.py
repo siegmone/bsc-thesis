@@ -1,5 +1,5 @@
 import numpy as np
-from scipy.optimize import least_squares
+from scipy.optimize import least_squares, curve_fit
 from scipy.stats import chi2
 from utils import get_impedance_data
 from plot import plot_impedance_fit, plot_bodeplot
@@ -35,8 +35,69 @@ def fit(params0, x, data, model):
     data_imag = data_fit.imag
     data_mod = np.abs(data_fit)
     data_phase = np.angle(data_fit)
-    data_fit_mp = np.array([data_real, data_imag, data_mod, data_phase]).flatten()
-    return params_fit, data_fit_mp
+    data_fit = np.array([data_real, data_imag, data_mod, data_phase]).flatten()
+    return params_fit, data_fit
+
+
+def fit_curve(params0, x, data, model):
+    data = np.array([data.real, data.imag]).flatten()
+    x = np.array([x, x]).flatten()
+    print(x.size)
+    print(data.size)
+    data_err = 0.001 * np.abs(data)
+    popt, pcov = curve_fit(
+        f=model.func_ind, xdata=x, ydata=data, sigma=data_err,
+        bounds=(0, np.inf), p0=params0
+    )
+    perr = np.sqrt(np.diag(pcov))
+    data_fit = model.func(popt, x[:x.size // 2])
+    return popt, perr, data_fit
+
+
+def fit_diode_curve(diode, date, exp_type, models, sigma=0.1, convergence_threshold=30):
+    csv_files = glob.glob(f"experiments/{diode}_{date}/{exp_type}/*.csv")
+    stats = {}
+    failures = {}
+    for csv_file in csv_files:
+        bias = csv_file.split('/')[-1].split('.')[0]
+        freq, Z, theta = get_impedance_data(csv_file)
+        if len(Z) < 5:
+            logging.info(
+                f"{diode} @ {bias} has insufficient data (< 5 points)"
+            )
+            continue
+        for model in models:
+            p0 = [1 for _ in range(model.params_num)]
+            print(f"\n\nFitting {diode} @ {bias} with {model.name}\n")
+            try:
+                popt, perr, data_fit = fit_curve(p0, freq, Z, model)
+            except Exception as e:
+
+                logging.error(f"Fit failed for {diode} @ {bias} with {model.name} with message: {e}")
+                continue
+            chi2_pvalue = chi2_test_pvalue(
+                np.array([np.abs(Z), theta]).flatten(),
+                np.array([np.abs(data_fit), np.angle(data_fit, deg=True)]).flatten(),
+                model, popt
+            )
+            if chi2_pvalue < 0.05:
+                logging.info(
+                    f"Chi2 test failed for {diode} @ {bias} with {model.name} with p-value: {chi2_pvalue}"
+                )
+            plot_impedance_fit(
+                freq, Z,
+                data_fit, popt, model,
+                title=f"{diode} @ {bias} - {model.name} fit",
+            )
+            plot_bodeplot(
+                freq, Z, theta,
+                data_fit, popt, model,
+                title=f"{diode} @ {bias} - {model.name} fit",
+            )
+            stats[(bias, model)] = [
+                (name, param) for name, param in zip(model.params_names, popt)
+            ]
+    return stats, failures
 
 
 def best_fit(x, data, model, convergence_threshold=100, sigma=0.1):
@@ -47,8 +108,7 @@ def best_fit(x, data, model, convergence_threshold=100, sigma=0.1):
     convergence_counter = 0
     while convergence_counter < convergence_threshold:
         params_fit, data_fit = fit(params0, x, data, model)
-        params0 = params_fit.x * \
-            (1 + np.random.uniform(low=-sigma, high=sigma, size=model.params_num))
+        params0 = params_fit.x * (1 + np.random.uniform(low=-sigma, high=sigma, size=model.params_num))
         if params_fit.cost < best_cost:
             best_cost = params_fit.cost
             best_params_fit = params_fit

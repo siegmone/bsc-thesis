@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 from utils import filter_stats, format_param_latex
 
 
-def plot_impedance_fit(x, data, fit, params, model, title="Impedance Fit"):
+def plot_impedance_fit(x, data, data_fit, params, model, title="Impedance Fit"):
     plt.style.use('seaborn-v0_8-colorblind')
     fig, ax = plt.subplots(figsize=(12, 9))
     scatter = ax.scatter(
@@ -17,11 +17,11 @@ def plot_impedance_fit(x, data, fit, params, model, title="Impedance Fit"):
         xerr=xerr, yerr=yerr,
         ecolor='k', elinewidth=0.5, capsize=2, fmt='none', zorder=1
     )
-    ax.plot(fit.real, -fit.imag, label="Best Fit", ls='--', c='red')
+    ax.plot(data_fit.real, -data_fit.imag, label="Best Fit", ls='--', c='red')
     cbar = plt.colorbar(scatter, ax=ax, extend='both')
     cbar.set_label(r'$\text{Frequency (Hz)}$', rotation=0, labelpad=20)
     text = ""
-    for param_name, param_unit, param in zip(model.params_names, model.params_units, params.x):
+    for param_name, param_unit, param in zip(model.params_names, model.params_units, params):
         param = format_param_latex(param)
         text += f"${param_name}={param} {param_unit}$\n"
     text = text.strip()
@@ -39,21 +39,21 @@ def plot_impedance_fit(x, data, fit, params, model, title="Impedance Fit"):
     plt.close(fig)
 
 
-def plot_bodeplot(x, Z, theta, fit, params, model, title="Bodeplot Fit"):
+def plot_bodeplot(x, Z, theta, data_fit, params, model, title="Bodeplot Fit"):
     plt.style.use('seaborn-v0_8-colorblind')
     fig, ax = plt.subplots(figsize=(12, 9))
     ax.scatter(
         x, np.abs(Z),
         label=r"$|Z|$", c='blue', ec='k', zorder=2
     )
-    ax.plot(x, np.abs(fit), label=r"$|Z|$ fit", ls='--', c='blue')
+    ax.plot(x, np.abs(data_fit), label=r"$|Z|$ fit", ls='--', c='blue')
     ax.set_title(title)
     ax.set_xlabel(r"$\text{Frequency (Hz)}$")
     ax.set_ylabel(r"$|Z| (\Omega)$")
     ax.set_xscale('log')
     ax.legend(loc='lower left', bbox_to_anchor=(0.0, 0.25), fontsize=12)
 
-    theta_fit = np.abs(np.angle(fit, deg=True))
+    theta_fit = np.abs(np.angle(data_fit, deg=True))
     ax2 = ax.twinx()
     ax2.set_ylabel('Phase (°)', color='red')
     ax2.scatter(

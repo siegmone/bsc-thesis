@@ -3,6 +3,7 @@ import pandas as pd
 from impedance import preprocessing
 import logging
 
+
 logging.basicConfig(
     level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s',
     filename='logs/main.log', filemode='w'

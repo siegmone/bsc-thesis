@@ -1,7 +1,7 @@
 from models import R_RC, R_RC_RC, R_RC_RC_RC
 import time
 import logging
-from fit import fit_diode
+from fit import fit_diode, fit_diode_curve
 from plot import plot_total_capacitance, plot_series_resistance, plot_parallel_resistances
 from utils import write_stats
 
@@ -14,21 +14,14 @@ logging.basicConfig(
 def main():
     sigma = 0.1
     convergence_threshold = 200
-
-    # models = [R_RC(), R_RC_RC(), R_RC_RC_RC(), R_RCW()]
-    # models = [R_RC(), R_RC_RC(), R_RC_RC_RC()]
     models = [R_RC_RC()]
-
     model_names = [model.name for model in models]
-
+    diodes = ["1N4007"]
     exp_type = "BIAS_SCAN"
     date = "2024-01-15"
-    # diodes = ["1N4001", "1N4002", "1N4003", "1N4007"]
-    diodes = ["1N4007"]
 
-    # stats: [diode, bias, model, cost, *params]
     for diode in diodes:
-        stats, failures = fit_diode(
+        stats, failures = fit_diode_curve(
             diode,
             date,
             exp_type,
