@@ -85,7 +85,7 @@ class R_RC_RC(Model):
         Z = series(Rs, p1, p2)
         return Z
 
-    def func_ind(self, f, *params):
+    def func_flat(self, f, *params):
         f = f[:len(f) // 2]
         Rs, Rp1, Cp1, Rp2, Cp2 = params
         p1 = RC().func([Rp1, Cp1], f)
