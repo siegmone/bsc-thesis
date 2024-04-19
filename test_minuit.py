@@ -17,7 +17,7 @@ exp_type = "BIAS_SCAN"
 date = "2024-01-15"
 
 csv_files = glob.glob(f"experiments/{diode}_{date}/{exp_type}/*.csv")
-csv_file = "experiments/1N4007_2024-01-15/BIAS_SCAN/575.0mV.csv"
+csv_file = "experiments/1N4007_2024-01-15/BIAS_SCAN/500.0mV.csv"
 
 bias = csv_file.split('/')[-1].split('.')[0]
 freq, Z, theta = get_impedance_data(csv_file)
@@ -45,6 +45,8 @@ print(Z_err.shape)
 ls = LeastSquares(freq_flat, Z_flat, Z_err, model_func)
 m = Minuit(ls, (1, 1, 1, 1, 1), name=model.params_names)
 m.limits = [(0, None), (0, None), (0, None), (0, None), (0, None)]
+m.migrad()
+print(m)
 m.migrad()
 print(m)
 m.migrad()
