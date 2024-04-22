@@ -7,7 +7,11 @@ import numpy as np
 from numpy import cos, sin
 import matplotlib.pyplot as plt
 from fit import best_fit_complex
-from plot import plot_impedance_fit
+from plot import plot_impedance_fit, plot_bodeplot
+from scipy.stats import chi2, chisquare
+
+
+
 
 
 
@@ -25,7 +29,7 @@ bias = csv_file.split('/')[-1].split('.')[0]
 freq, Z, theta = get_impedance_data(csv_file)
 
 Z_mag = np.abs(Z)
-Z_mag_err = 0.001 * Z_mag
+Z_mag_err = 0.01 * Z_mag
 
 Z_real, Z_imag = Z.real, Z.imag
 Z_flat = np.concatenate((Z_real, Z_imag))
@@ -42,14 +46,33 @@ plt.errorbar(
     ecolor='k', elinewidth=0.5, capsize=2, fmt='none', zorder=1,
     label="Data"
 )
-print(Z.shape)
-print(Z_err.shape)
 
 params_fit, data_fit = best_fit_complex(freq, Z, model)
-params0 = tuple(params_fit.x)
-print(params0)
 
-print(new_params)
-data_fit_min = model.func(new_params, freq)
+param_dict = {name: val for name, val in zip(model.params_names, params_fit)}
+ls = LeastSquares(freq_flat, Z_flat, Z_err, model_func)
+m = Minuit(ls, params_fit, name=model.params_names)
+m.limits = [(0, None) for _ in range(model.params_num)]
+m.migrad()
 
-plot_impedance_fit(freq, Z, data_fit_min, new_params, model)
+params_fit = m.values
+
+x_fit = np.logspace(-1, 8, 10000)
+data_fit = model.func(params_fit, x_fit)
+
+plot_impedance_fit(freq, Z, x_fit, data_fit, params_fit, model, minuit=m, title=f"{diode}_{bias}_{model_name}")
+plot_bodeplot(freq, Z, theta, x_fit, data_fit, params_fit, model, minuit=m, title=f"{diode}_{bias}_{model_name}")
+
+plt.show()
+
+fit_flat = np.concatenate((data_fit.real, data_fit.imag))
+
+alpha = 0.05
+dof = len(Z) - model.params_num
+chi2_val = np.sum((Z_flat - fit_flat)**2 / Z_err**2)
+chi2_crit = chi2.ppf(1 - alpha, dof)
+p_value = 1 - chi2.cdf(chi2_val, dof)
+print(f"Chi2 value: {chi2_val}")
+print(f"Chi2 critical: {chi2_crit}")
+print(f"P-value: {p_value}")
+
