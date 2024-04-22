@@ -1,6 +1,8 @@
 import numpy as np
 from scipy.optimize import least_squares
 from scipy.stats import chi2
+from iminuit import Minuit
+from iminuit.cost import LeastSquares
 
 
 def residuals(params, x, data, model):
@@ -50,7 +52,7 @@ def fit_complex_phase(params0, x, data, model):
     return params_fit, data_fit
 
 
-def best_fit_complex(x, data, model, convergence_threshold=100, sigma=0.1):
+def best_fit_complex(x, data, model, err, convergence_threshold=100, sigma=0.1):
     np.random.seed(42)
     params0 = [1 for _ in range(model.params_num)]
     best_params_fit, best_data_fit = fit_complex_phase(params0, x, data, model)
@@ -67,6 +69,14 @@ def best_fit_complex(x, data, model, convergence_threshold=100, sigma=0.1):
             convergence_counter = 0
         else:
             convergence_counter += 1
+    ls = LeastSquares(x, data, err, model.func_flat)
+    m = Minuit(ls, params0, name=model.params_names)
+    m.limits = [(0, None), (0, None), (0, None), (0, None), (0, None)]
+    m.migrad()
+    m.hesse()
+    m.minos()
+    best_params_fit = m.values
+    best_data_fit = model.func(best_params_fit, x)
     return best_params_fit, best_data_fit
 
 

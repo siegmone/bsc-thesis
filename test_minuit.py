@@ -7,6 +7,7 @@ import numpy as np
 from numpy import cos, sin
 import matplotlib.pyplot as plt
 from fit import best_fit_complex
+from plot import plot_impedance_fit
 
 
 
@@ -24,7 +25,7 @@ bias = csv_file.split('/')[-1].split('.')[0]
 freq, Z, theta = get_impedance_data(csv_file)
 
 Z_mag = np.abs(Z)
-Z_mag_err = 0.01 * Z_mag
+Z_mag_err = 0.001 * Z_mag
 
 Z_real, Z_imag = Z.real, Z.imag
 Z_flat = np.concatenate((Z_real, Z_imag))
@@ -48,20 +49,7 @@ params_fit, data_fit = best_fit_complex(freq, Z, model)
 params0 = tuple(params_fit.x)
 print(params0)
 
-ls = LeastSquares(freq_flat, Z_flat, Z_err, model_func)
-m = Minuit(ls, params0, name=model.params_names)
-m.limits = [(0, None), (0, None), (0, None), (0, None), (0, None)]
-m.migrad()
-m.hesse()
-m.minos()
-print(m)
-new_params = m.values
 print(new_params)
-data_fit2 = model.func(new_params, freq)
+data_fit_min = model.func(new_params, freq)
 
-plt.plot(data_fit.real, data_fit.imag, label=model_name, zorder=2)
-plt.plot(data_fit2.real, data_fit2.imag, label=model_name + "minuit", zorder=3)
-plt.legend()
-
-plt.show()
-
+plot_impedance_fit(freq, Z, data_fit_min, new_params, model)
