@@ -54,6 +54,8 @@ ls = LeastSquares(freq_flat, Z_flat, Z_err, model_func)
 m = Minuit(ls, params_fit, name=model.params_names)
 m.limits = [(0, None) for _ in range(model.params_num)]
 m.migrad()
+m.hesse()
+print(m)
 
 params_fit = m.values
 
@@ -63,8 +65,7 @@ data_fit = model.func(params_fit, x_fit)
 plot_impedance_fit(freq, Z, x_fit, data_fit, params_fit, model, minuit=m, title=f"{diode}_{bias}_{model_name}")
 plot_bodeplot(freq, Z, theta, x_fit, data_fit, params_fit, model, minuit=m, title=f"{diode}_{bias}_{model_name}")
 
-plt.show()
-
+data_fit = model.func(params_fit, freq)
 fit_flat = np.concatenate((data_fit.real, data_fit.imag))
 
 alpha = 0.05
