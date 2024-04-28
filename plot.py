@@ -9,7 +9,7 @@ def plot_impedance_fit(x, data, x_fit, data_fit, params, model, title="Impedance
     scatter = ax.scatter(
         data.real, -data.imag,
         label="Impedance Data", c=x, cmap='rainbow_r', ec='k',
-        vmin=1, vmax=1e6, zorder=2
+        vmin=1, vmax=1e6, zorder=2, marker='.'
     )
     xerr = yerr = 0.01 * np.abs(data)
     ax.errorbar(
