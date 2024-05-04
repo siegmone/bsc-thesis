@@ -3,25 +3,24 @@ import matplotlib.pyplot as plt
 from utils import filter_stats, format_param_latex
 
 
-def plot_impedance_fit(x, data, x_fit, data_fit, params, model, title="Impedance Fit", minuit=None):
+def plot_nyquist(x, data, x_fit, data_fit, x_err, y_err, p, sigma_p, model, title="Nyquist-Plot"):
     plt.style.use('seaborn-v0_8-colorblind')
     fig, ax = plt.subplots(figsize=(12, 9))
     scatter = ax.scatter(
         data.real, -data.imag,
-        label="Impedance Data", c=x, cmap='rainbow_r', ec='k',
-        vmin=1, vmax=1e6, zorder=2, marker='.'
+        label="Nyquist Data", c=x, cmap='rainbow_r', ec='k',
+        vmin=1, vmax=1e6, zorder=2, marker='o'
     )
-    xerr = yerr = 0.01 * np.abs(data)
     ax.errorbar(
         data.real, -data.imag,
-        xerr=xerr, yerr=yerr,
+        xerr=x_err, yerr=y_err,
         ecolor='k', elinewidth=0.5, capsize=2, fmt='none', zorder=1
     )
-    ax.plot(data_fit.real, -data_fit.imag, label="Best Fit", ls='--', c='red')
+    ax.plot(data_fit.real, -data_fit.imag, label="Nyquist Best Fit", ls='--', c='red')
     cbar = plt.colorbar(scatter, ax=ax, extend='both')
     cbar.set_label(r'$\text{Frequency (Hz)}$', rotation=0, labelpad=20)
     text = ""
-    for p, v, e, u in zip(minuit.parameters, minuit.values, minuit.errors, model.params_units):
+    for p, v, e, u in zip(model.params_names, p, sigma_p, model.params_units):
         # p = format_param_latex(p)
         text += f"${p}=({v:.3e} \\pm {e:.3e}) {u}$\n"
     text = text.strip()
@@ -35,30 +34,35 @@ def plot_impedance_fit(x, data, x_fit, data_fit, params, model, title="Impedance
     ax.set_ylim(bottom=0)
     ax.grid(True, alpha=0.5, linestyle='--')
     ax.legend(loc='upper left', fontsize=12)
-    fig.savefig(f"plots/bias_scan/Example-{title}.png")
+    ax.set_aspect('equal', adjustable='box')
+    fig.savefig(f"plots/bias_scan/{title}-nyquist.png")
     plt.close(fig)
 
 
-def plot_bodeplot(x, Z, theta, x_fit, data_fit, params, model, title="Bodeplot Fit", minuit=None):
+def plot_bode(x, data, x_fit, data_fit, Z_mag_err, theta_err, p, sigma_p, model, title="Bode-Plot"):
+    ll = len(x)
+    ll_f = len(x_fit)
+    Z_mag, theta = data[:ll], data[ll:]
+    Z_mag_fit, theta_fit = data_fit[:ll_f], data_fit[ll_f:]
     plt.style.use('seaborn-v0_8-colorblind')
     fig, ax = plt.subplots(figsize=(12, 9))
+    # Mag
     ax.scatter(
-        x, np.abs(Z),
+        x, Z_mag,
         label=r"$|Z|$", c='blue', ec='k', zorder=2
     )
     ax.errorbar(
-        x, np.abs(Z),
-        xerr=0, yerr=0.01 * np.abs(Z),
+        x, Z_mag,
+        xerr=0, yerr=Z_mag_err,
         ecolor='k', elinewidth=0.5, capsize=2, fmt='none', zorder=1
     )
-    ax.plot(x_fit, np.abs(data_fit), label=r"$|Z|$ fit", ls='--', c='blue')
+    ax.plot(x_fit, Z_mag_fit, label=r"$|Z|$ fit", ls='--', c='blue')
     ax.set_title(title)
     ax.set_xlabel(r"$\text{Frequency (Hz)}$")
     ax.set_ylabel(r"$|Z| (\Omega)$")
     ax.set_xscale('log')
     ax.legend(loc='lower left', bbox_to_anchor=(0.0, 0.25), fontsize=12)
-
-    theta_fit = np.abs(np.angle(data_fit, deg=True))
+    # Theta
     ax2 = ax.twinx()
     ax2.set_ylabel('Phase (°)', color='red')
     ax2.scatter(
@@ -66,10 +70,9 @@ def plot_bodeplot(x, Z, theta, x_fit, data_fit, params, model, title="Bodeplot F
         label=r"$\theta$", c='green', ec='k', zorder=2
     )
     ax2.plot(x_fit, theta_fit, label=r"$\theta$ fit", ls='--', c='red')
-    yerr = 0.1
     ax2.errorbar(
         x, theta,
-        xerr=0, yerr=yerr,
+        xerr=0, yerr=theta_err,
         ecolor='k', elinewidth=0.5, capsize=2, fmt='none', zorder=1
     )
     ax2.set_ylim(0, 90)
@@ -84,7 +87,7 @@ def plot_bodeplot(x, Z, theta, x_fit, data_fit, params, model, title="Bodeplot F
 
     ax2.legend(loc='lower left', bbox_to_anchor=(0.2, 0.26), fontsize=12)
 
-    fig.savefig(f"plots/bias_scan/Example-{title}_bode.png")
+    fig.savefig(f"plots/bias_scan/{title}-bode.png")
     plt.close(fig)
 
 

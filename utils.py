@@ -1,19 +1,42 @@
-from fit import best_fit_complex, chi2_test_pvalue
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import glob
-from impedance import preprocessing
-import logging
-import scienceplots
+import os
+from subprocess import call
+from time import sleep
+from icecream import ic
 
 FONTSIZE = 16
 
 
-logging.basicConfig(
-    level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s',
-    filename='logs/main.log', filemode='w'
-)
+# define clear function
+def clear():
+    # check and make call for specific operating system
+    _ = call('clear' if os.name == 'posix' else 'cls')
+
+
+def print_parameters_with_model_name(params, model):
+    output = ""
+    for name, p in zip(model.params_names, params):
+        output += f"{name} = {p:.3e}\n"
+    output.strip()
+    print(output)
+    sleep(0.01)
+    clear()
+
+
+def get_valid_fits(filepath):
+    colnames = ["DIODE", "BIAS", "MODEL", "FIT_VALIDATION"]
+    df = pd.read_csv(filepath, sep=" ", header=None, names=colnames)
+    valid_df = df[df["FIT_VALIDATION"] == "VALID"].sort_values(by=["DIODE", "BIAS"])
+    invalid_df = df[df["FIT_VALIDATION"] == "INVALID"].sort_values(by=["DIODE", "BIAS"])
+    valid = np.array(valid_df[["DIODE", "BIAS"]])
+    invalid = np.array(invalid_df[["DIODE", "BIAS"]])
+    ic(df)
+    ic(valid)
+    ic(invalid)
+    return valid, invalid
 
 
 def format_param_latex(p):
@@ -23,14 +46,20 @@ def format_param_latex(p):
     return formatted_number
 
 
-def get_impedance_data(filepath):
+def get_impedance_data(filepath, drop=0):
+    flag = False
     df = pd.read_csv(filepath, skiprows=3, sep=', ', engine='python')
-    df = df[df["Frequency (Hz)"].notna()]
+    ic(filepath)
+    df = df[df["Frequency (Hz)"].notna() & (df["Z'' (Ohm)"] < 0)]
+    df.drop(df.tail(drop).index, inplace=True)
+    if df.empty:
+        print("No valid points!")
+        flag = True
     freq = np.array(df["Frequency (Hz)"])
     Z = np.array(df["Z' (Ohm)"]) + np.array(df["Z'' (Ohm)"]) * 1j
-    freq, Z = preprocessing.ignoreBelowX(freq, Z)
-    theta = np.abs(np.angle(Z, deg=True))
-    return freq, Z, theta
+    Z_mag = np.array(df["| Z | (Ohm)"])
+    theta = np.array(df["Phase (Deg)"])
+    return freq, Z, Z_mag, theta, flag
 
 
 def filter_stats(stats, fix_bias=None, fix_model=None):
@@ -99,11 +128,6 @@ def write_stats(stats, filename):
 
 
 
-
-logging.basicConfig(
-    level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s',
-    filename='logs/main.log', filemode='w'
-)
 
 def plot_impedance_fit(x, data, fit, params, model, title="Impedance Fit"):
     # plt.style.use('seaborn-v0_8-colorblind')

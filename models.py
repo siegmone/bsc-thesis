@@ -1,4 +1,8 @@
 import numpy as np
+from fit import best_fit
+from iminuit import Minuit
+from iminuit.cost import LeastSquares
+from icecream import ic
 
 
 def imp_C(f, C):
@@ -35,11 +39,49 @@ class Model:
     def __repr__(self):
         return self.name
 
-    def func(self, params, f):
-        raise NotImplementedError
-
     def set_params_num(self):
         self.params_num = len(self.params_names)
+
+    def impedance(self, params, f):
+        raise NotImplementedError
+
+    def mag_phase(self, params, f):
+        Z = self.impedance(params, f)
+        return np.concatenate([np.abs(Z), np.angle(Z, deg=True)])
+
+    def all(self, params, f):
+        Z = self.impedance(params, f)
+        Z_real, Z_imag = Z.real, Z.imag
+        return np.concatenate([self.mag_phase(params, f), Z_real, Z_imag])
+
+    def mag_phase_minuit(self, ff, params):
+        f = ff[:len(ff) // 2]
+        Z = self.impedance(params, f)
+        return np.concatenate([np.abs(Z), np.angle(Z, deg=True)])
+
+    def real_imag_minuit(self, ff, params):
+        f = ff[:len(ff) // 2]
+        Z = self.impedance(params, f)
+        return np.concatenate([Z.real, Z.imag])
+
+    def all_minuit(self, f_4, params):
+        f = f_4[:len(f_4) // 4]
+        Z = self.impedance(params, f)
+        Z_real, Z_imag = Z.real, Z.imag
+        return np.concatenate([self.mag_phase(params, f), Z_real, Z_imag])
+
+    def fit(self, f, data, sigma):
+        print("Using custom minimizer")
+        p = best_fit(f, data, self)
+        ff = np.concatenate([f, f])
+        print("Using Minuit")
+        ls = LeastSquares(ff, data, sigma, self.mag_phase_minuit)
+        minuit = Minuit(ls, p, name=self.params_names)
+        minuit.limits = [(0, None) for _ in range(self.params_num)]
+        minuit.migrad()
+        minuit.hesse()
+        print(minuit)
+        return minuit.values, minuit.errors, minuit.valid
 
 
 class RC(Model):
@@ -49,7 +91,7 @@ class RC(Model):
         self.params_units = [r'\Omega', 'F']
         super().set_params_num()
 
-    def func(self, params, f):
+    def impedance(self, params, f):
         R, C = params
         Z_real = R / (1 + (2 * np.pi * f * R * C)**2)
         Z_imag = -(2 * np.pi * f * C * (R**2)) / \
@@ -65,9 +107,9 @@ class R_RC(Model):
         self.params_units = [r'\Omega', r'\Omega', 'F']
         super().set_params_num()
 
-    def func(self, params, f):
+    def impedance(self, params, f):
         Rs, Rp, Cp = params
-        Z = series(Rs, RC().func([Rp, Cp], f))
+        Z = series(Rs, RC().impedance([Rp, Cp], f))
         return Z
 
 
@@ -78,22 +120,12 @@ class R_RC_RC(Model):
         self.params_units = [r'\Omega', r'\Omega', 'F', r'\Omega', 'F']
         super().set_params_num()
 
-    def func(self, params, f):
+    def impedance(self, params, f):
         Rs, Rp1, Cp1, Rp2, Cp2 = params
-        p1 = RC().func([Rp1, Cp1], f)
-        p2 = RC().func([Rp2, Cp2], f)
+        p1 = RC().impedance([Rp1, Cp1], f)
+        p2 = RC().impedance([Rp2, Cp2], f)
         Z = series(Rs, p1, p2)
         return Z
-
-    def func_flat(self, f, params):
-        f = f[:len(f) // 2]
-        Rs, Rp1, Cp1, Rp2, Cp2 = params
-        p1 = RC().func([Rp1, Cp1], f)
-        p2 = RC().func([Rp2, Cp2], f)
-        Z = series(Rs, p1, p2)
-        return np.array([Z.real, Z.imag]).flatten()
-
-
 
 
 class R_RC_RC_RC(Model):
@@ -104,11 +136,11 @@ class R_RC_RC_RC(Model):
                              r'\Omega', 'F']
         super().set_params_num()
 
-    def func(self, params, f):
+    def impedance(self, params, f):
         Rs, Rp1, Cp1, Rp2, Cp2, Rp3, Cp3 = params
-        p1 = RC().func([Rp1, Cp1], f)
-        p2 = RC().func([Rp2, Cp2], f)
-        p3 = RC().func([Rp3, Cp3], f)
+        p1 = RC().impedance([Rp1, Cp1], f)
+        p2 = RC().impedance([Rp2, Cp2], f)
+        p3 = RC().impedance([Rp3, Cp3], f)
         Z = series(Rs, p1, p2, p3)
         return Z
 
@@ -121,7 +153,7 @@ class R_RCW(Model):
                              'F', r'\frac{\Omega}{s^{1/2}}']
         super().set_params_num()
 
-    def func(self, params, f):
+    def impedance(self, params, f):
         Rs, Rp, Cp, W = params
         Z_R = Rs
         Z_W = imp_W(f, W)
@@ -133,17 +165,4 @@ class R_RCW(Model):
                 series(Z_R, Z_W)
             )
         )
-        return Z
-
-
-class R_R(Model):
-    def __init__(self):
-        super().__init__('R_R')
-        self.params_names = ['Rs', 'Rp']
-        self.params_units = [r'\Omega', r'\Omega']
-        super().set_params_num()
-
-    def func(self, params, f):
-        Rs, Rp = params
-        Z = series(Rs, Rp)
         return Z
