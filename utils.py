@@ -72,7 +72,7 @@ def print_raw_csv(src, dest):
         "Z_re": Z.real,
         "Z_im": Z.imag,
         })
-    df.to_csv(dest, index=False)
+    df.to_csv(dest + ".csv", index=False)
 
 
 def params_to_json(filepath, diode, bias, model, p, sigma_p):
