@@ -1,6 +1,6 @@
 import glob
 from models import R_RC_RC
-from utils import get_impedance_data, get_valid_fits
+from utils import get_impedance_data, get_valid_fits, print_raw_csv, params_to_json
 from plot import plot_nyquist, plot_bode
 import numpy as np
 from numpy import cos, sin
@@ -22,8 +22,9 @@ def main():
     for diode in diodes:
         csv_files = glob.glob(f"experiments/{diode}_{date}/BIAS_SCAN/*.csv")
         for csv_file in csv_files:
-            bias = csv_file.split('/')[-1].split('.')[0]
+            bias = str(csv_file.split('/')[-1].split('.')[0]).removesuffix("mV")
             f, Z, Z_mag, theta, flag = get_impedance_data(csv_file)
+            print_raw_csv(csv_file, f"clean_raw/{diode}-{bias}")
             Z_real, Z_imag = Z.real, Z.imag
             if flag:
                 continue
@@ -45,6 +46,7 @@ def main():
                         file.write(f"{diode} {bias} {model.name} INVALID\n")
                 if not valid:
                     continue
+                params_to_json("params.json", diode, bias, model, p, sigma_p)
                 print("Plotting Nyquist Plot")
                 data_nyquist_fit = model.impedance(p, f_fit)
                 plot_nyquist(

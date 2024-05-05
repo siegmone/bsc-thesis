@@ -1,0 +1,16 @@
+﻿0	00:00:00.000	XM-studio ECS 3.6.8657    Experiment Start time: 2024-01-15T10:46:23
+0	00:00:00.000	Solartron XMA PSTAT1MS s/n:379910. Firmware 04.03.00, 04.03.00. Calibrated XM-Wokm-UK-, 14-Jan-2019. XM FRA1MHz. Firmware 01.06.00, 04.01.01. 
+0	00:00:00.000	Experiment Progress: 1:0,0,0,0,0,0,0,0:0
+0	00:00:00.018	Experiment Progress: 1:0,0,0,0,0,0,0,0:0
+0	00:00:00.034	Experiment Progress: 1:0,0,0,0,0,0,0,0:0
+0	00:00:00.051	Experiment Progress: 1:0,0,0,0,0,0,0,0:0
+0	00:00:00.067	Experiment Progress: 1:0,0,0,0,0,0,0,0:0
+0	00:00:01.010	Experiment Progress: 1:0,0,0,0,0,0,0,0:0
+0	00:00:01.594	Experiment Progress: 1:0,0,0,0,0,0,0,0:0
+0	00:00:01.963	Experiment Progress: 1:0,0,0,0,0,0,0,0:0
+0	00:00:02.531	Experiment Progress: 2:0,0,0,0,0,0,0,0:0
+0	00:00:02.536	Experiment Progress: 2:0,0,0,0,0,0,0,0:0
+0	00:00:02.775	Experiment Progress: 2:0,0,0,0,0,0,0,0:0
+0	00:00:04.134	Experiment Progress: 2:0,0,0,0,0,0,0,0:0
+0	00:00:04.483	Experiment Progress: 2:0,0,0,0,0,0,0,0:0
+0	00:00:08.483	Experiment Ended

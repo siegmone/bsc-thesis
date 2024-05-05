@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ProjectClass xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <ClassHeader ID="ProjectClass" Ver="1" Name="1N4001_2024-01-15" />
+  <FileHeader Username="Simone Vortice" CreationDate="2024-01-15T11:17:40.7061218+01:00" LastModDate="2024-01-15T11:17:40.7591563+01:00" LastSaveLocation="C:\Users\Simone Vortice\Documents\1N4001_2024-01-15\proj.info">
+    <FileType>ProjectInfoFile</FileType>
+  </FileHeader>
+  <Name>1N4001_2024-01-15</Name>
+  <Mode>ECS</Mode>
+  <Comment />
+  <RemoteEquipmentFiles />
+  <RemoteExperimentFolders />
+</ProjectClass>

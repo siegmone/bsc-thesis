@@ -6,6 +6,7 @@ import os
 from subprocess import call
 from time import sleep
 from icecream import ic
+import json
 
 FONTSIZE = 16
 
@@ -60,6 +61,58 @@ def get_impedance_data(filepath, drop=0):
     Z_mag = np.array(df["| Z | (Ohm)"])
     theta = np.array(df["Phase (Deg)"])
     return freq, Z, Z_mag, theta, flag
+
+
+def print_raw_csv(src, dest):
+    freq, Z, Z_mag, phase, _ = get_impedance_data(src)
+    df = pd.DataFrame({
+        "frequency": freq,
+        "Z": Z_mag,
+        "phase": phase,
+        "Z_re": Z.real,
+        "Z_im": Z.imag,
+        })
+    df.to_csv(dest, index=False)
+
+
+def params_to_json(filepath, diode, bias, model, p, sigma_p):
+    p_l = list(p)
+    sigma_p_l = list(p)
+    exists = False
+    if os.path.exists(filepath):
+        # Load JSON data from file
+        try:
+            with open(filepath, "r") as json_file:
+                data = json.load(json_file)
+            exists = True
+        except Exception as e:
+            print(e)
+            print("Error decoding existing json file... creating new one")
+            exists = False
+    if not exists:
+        # Initialize an empty dictionary if the file doesn't exist
+        data = {
+                diode: {
+                    bias: {
+                        model.name: {
+                            "params": model.params_names,
+                            "values": p_l,
+                            "errors": sigma_p_l
+                            }
+                        }
+                    }
+                }
+    if diode not in data:
+        data[diode] = {}
+    if bias not in data[diode]:
+        data[diode][bias] = {}
+    if model.name not in data[diode][bias]:
+        data[diode][bias][model.name] = {}
+    data[diode][bias][model.name]["params"] = model.params_names
+    data[diode][bias][model.name]["values"] = p_l
+    data[diode][bias][model.name]["errors"] = sigma_p_l
+    with open(filepath, "w") as json_file:
+        json.dump(data, json_file, indent=4)
 
 
 def filter_stats(stats, fix_bias=None, fix_model=None):

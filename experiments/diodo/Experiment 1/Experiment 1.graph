@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GraphSetupClass xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <ClassHeader ID="GraphSetupClass" Ver="1" Name="Experiment 1" />
+  <FileHeader Username="Simone Vortice" CreationDate="2023-11-29T17:36:54.9107431+01:00" LastModDate="2023-11-29T17:36:57.8535339+01:00" LastSaveLocation="C:\Users\Simone Vortice\Documents\diodo\diodo\Experiment 1\Experiment 1.graph">
+    <FileType>Graph</FileType>
+  </FileHeader>
+  <Name>Experiment 1</Name>
+  <Graph1>
+    <ID>I_vs_E</ID>
+    <Name>I vs. E</Name>
+    <Enabled>true</Enabled>
+    <Isotropic>false</Isotropic>
+    <LinkY1Y2>true</LinkY1Y2>
+    <ShowLegend>true</ShowLegend>
+    <ShowTitle>false</ShowTitle>
+    <AxisX>
+      <Quantity>Voltage</Quantity>
+      <AxisUnit>V</AxisUnit>
+      <Channels>1</Channels>
+      <IsAutoAxisLabel>true</IsAutoAxisLabel>
+      <AxisLabel>E vs. Ref (V)</AxisLabel>
+      <IsAutoMinimum>true</IsAutoMinimum>
+      <Minimum>0</Minimum>
+      <IsAutoMaximum>true</IsAutoMaximum>
+      <Maximum>1</Maximum>
+      <IsAutoMajorTick>true</IsAutoMajorTick>
+      <MajorTickValue>10</MajorTickValue>
+      <MajorTickMark>Outside</MajorTickMark>
+      <IsMajorGridVisible>true</IsMajorGridVisible>
+      <IsAutoMinorTick>true</IsAutoMinorTick>
+      <MinorTickValue>5</MinorTickValue>
+      <MinorTickMark>Outside</MinorTickMark>
+      <IsMinorGridVisible>false</IsMinorGridVisible>
+      <IsAutoAxisIntercept>true</IsAutoAxisIntercept>
+      <AxisIntercept>0</AxisIntercept>
+      <IsLogAxis>false</IsLogAxis>
+      <InvertAxis>false</InvertAxis>
+      <AxisScale>
+        <Method>Linear</Method>
+        <Parameter>1</Parameter>
+      </AxisScale>
+      <Filter />
+    </AxisX>
+    <AxisY1>
+      <Quantity>Current_Density</Quantity>
+      <AxisUnit>A/cm²</AxisUnit>
+      <Channels>1</Channels>
+      <IsAutoAxisLabel>true</IsAutoAxisLabel>
+      <AxisLabel>i (A/cm²)</AxisLabel>
+      <IsAutoMinimum>true</IsAutoMinimum>
+      <Minimum>0</Minimum>
+      <IsAutoMaximum>true</IsAutoMaximum>
+      <Maximum>1</Maximum>
+      <IsAutoMajorTick>true</IsAutoMajorTick>
+      <MajorTickValue>10</MajorTickValue>
+      <MajorTickMark>Outside</MajorTickMark>
+      <IsMajorGridVisible>true</IsMajorGridVisible>
+      <IsAutoMinorTick>true</IsAutoMinorTick>
+      <MinorTickValue>5</MinorTickValue>
+      <MinorTickMark>Outside</MinorTickMark>
+      <IsMinorGridVisible>false</IsMinorGridVisible>
+      <IsAutoAxisIntercept>true</IsAutoAxisIntercept>
+      <AxisIntercept>0</AxisIntercept>
+      <IsLogAxis>false</IsLogAxis>
+      <InvertAxis>false</InvertAxis>
+      <AxisScale>
+        <Method>Linear</Method>
+        <Parameter>1</Parameter>
+      </AxisScale>
+      <Filter />
+    </AxisY1>
+    <AxisY2>
+      <Quantity>None</Quantity>
+      <AxisUnit />
+      <Channels>1</Channels>
+      <IsAutoAxisLabel>true</IsAutoAxisLabel>
+      <AxisLabel>None</AxisLabel>
+      <IsAutoMinimum>true</IsAutoMinimum>
+      <Minimum>0</Minimum>
+      <IsAutoMaximum>true</IsAutoMaximum>
+      <Maximum>1</Maximum>
+      <IsAutoMajorTick>true</IsAutoMajorTick>
+      <MajorTickValue>10</MajorTickValue>
+      <MajorTickMark>Outside</MajorTickMark>
+      <IsMajorGridVisible>false</IsMajorGridVisible>
+      <IsAutoMinorTick>true</IsAutoMinorTick>
+      <MinorTickValue>5</MinorTickValue>
+      <MinorTickMark>Outside</MinorTickMark>
+      <IsMinorGridVisible>false</IsMinorGridVisible>
+      <IsAutoAxisIntercept>true</IsAutoAxisIntercept>
+      <AxisIntercept>0</AxisIntercept>
+      <IsLogAxis>false</IsLogAxis>
+      <InvertAxis>false</InvertAxis>
+      <AxisScale>
+        <Method>Linear</Method>
+        <Parameter>1</Parameter>
+      </AxisScale>
+      <Filter />
+    </AxisY2>
+  </Graph1>
+  <Graph2>
+    <ID>None</ID>
+    <Name>None</Name>
+    <Enabled>false</Enabled>
+    <Isotropic>false</Isotropic>
+    <LinkY1Y2>true</LinkY1Y2>
+    <ShowLegend>true</ShowLegend>
+    <ShowTitle>false</ShowTitle>
+    <AxisX>
+      <Quantity>None</Quantity>
+      <AxisUnit />
+      <Channels>1</Channels>
+      <IsAutoAxisLabel>true</IsAutoAxisLabel>
+      <AxisLabel>None</AxisLabel>
+      <IsAutoMinimum>true</IsAutoMinimum>
+      <Minimum>0</Minimum>
+      <IsAutoMaximum>true</IsAutoMaximum>
+      <Maximum>1</Maximum>
+      <IsAutoMajorTick>true</IsAutoMajorTick>
+      <MajorTickValue>10</MajorTickValue>
+      <MajorTickMark>Outside</MajorTickMark>
+      <IsMajorGridVisible>true</IsMajorGridVisible>
+      <IsAutoMinorTick>true</IsAutoMinorTick>
+      <MinorTickValue>5</MinorTickValue>
+      <MinorTickMark>Outside</MinorTickMark>
+      <IsMinorGridVisible>false</IsMinorGridVisible>
+      <IsAutoAxisIntercept>true</IsAutoAxisIntercept>
+      <AxisIntercept>0</AxisIntercept>
+      <IsLogAxis>false</IsLogAxis>
+      <InvertAxis>false</InvertAxis>
+      <AxisScale>
+        <Method>Linear</Method>
+        <Parameter>1</Parameter>
+      </AxisScale>
+      <Filter />
+    </AxisX>
+    <AxisY1>
+      <Quantity>None</Quantity>
+      <AxisUnit />
+      <Channels>1</Channels>
+      <IsAutoAxisLabel>true</IsAutoAxisLabel>
+      <AxisLabel>None</AxisLabel>
+      <IsAutoMinimum>true</IsAutoMinimum>
+      <Minimum>0</Minimum>
+      <IsAutoMaximum>true</IsAutoMaximum>
+      <Maximum>1</Maximum>
+      <IsAutoMajorTick>true</IsAutoMajorTick>
+      <MajorTickValue>10</MajorTickValue>
+      <MajorTickMark>Outside</MajorTickMark>
+      <IsMajorGridVisible>true</IsMajorGridVisible>
+      <IsAutoMinorTick>true</IsAutoMinorTick>
+      <MinorTickValue>5</MinorTickValue>
+      <MinorTickMark>Outside</MinorTickMark>
+      <IsMinorGridVisible>false</IsMinorGridVisible>
+      <IsAutoAxisIntercept>true</IsAutoAxisIntercept>
+      <AxisIntercept>0</AxisIntercept>
+      <IsLogAxis>false</IsLogAxis>
+      <InvertAxis>false</InvertAxis>
+      <AxisScale>
+        <Method>Linear</Method>
+        <Parameter>1</Parameter>
+      </AxisScale>
+      <Filter />
+    </AxisY1>
+    <AxisY2>
+      <Quantity>None</Quantity>
+      <AxisUnit />
+      <Channels>1</Channels>
+      <IsAutoAxisLabel>true</IsAutoAxisLabel>
+      <AxisLabel>None</AxisLabel>
+      <IsAutoMinimum>true</IsAutoMinimum>
+      <Minimum>0</Minimum>
+      <IsAutoMaximum>true</IsAutoMaximum>
+      <Maximum>1</Maximum>
+      <IsAutoMajorTick>true</IsAutoMajorTick>
+      <MajorTickValue>10</MajorTickValue>
+      <MajorTickMark>Outside</MajorTickMark>
+      <IsMajorGridVisible>false</IsMajorGridVisible>
+      <IsAutoMinorTick>true</IsAutoMinorTick>
+      <MinorTickValue>5</MinorTickValue>
+      <MinorTickMark>Outside</MinorTickMark>
+      <IsMinorGridVisible>false</IsMinorGridVisible>
+      <IsAutoAxisIntercept>true</IsAutoAxisIntercept>
+      <AxisIntercept>0</AxisIntercept>
+      <IsLogAxis>false</IsLogAxis>
+      <InvertAxis>false</InvertAxis>
+      <AxisScale>
+        <Method>Linear</Method>
+        <Parameter>1</Parameter>
+      </AxisScale>
+      <Filter />
+    </AxisY2>
+  </Graph2>
+  <DataSections>
+    <DataSection>
+      <ClassHeader ID="DataSection" Ver="1" Name="Pstat Group 1" />
+      <DataFile>C:\Users\Simone Vortice\Documents\diodo\diodo\Experiment 1\Experiment 1 (26).data</DataFile>
+      <SectionID>0</SectionID>
+      <GraphTraces>
+        <GraphTrace GraphID="Graph1" AxisID="Y1" ChannelIDx="0" ChannelIDy="0">
+          <Subsection>
+            <Loop>-2147483648</Loop>
+            <Temperature>-INF</Temperature>
+            <DC_Bias>-INF</DC_Bias>
+            <Amplitude>-INF</Amplitude>
+            <Frequency>-INF</Frequency>
+          </Subsection>
+          <AutoStyle>true</AutoStyle>
+          <XmlLineStyle>Solid,0xffcc0000,0</XmlLineStyle>
+          <XmlSymbolStyle>None,0xffcc0000,5,0x00000000,0</XmlSymbolStyle>
+          <AutoLegend>true</AutoLegend>
+          <Legend>Current Density</Legend>
+          <Active>false</Active>
+        </GraphTrace>
+      </GraphTraces>
+      <Legend />
+    </DataSection>
+  </DataSections>
+  <LineStyle>Automatic</LineStyle>
+  <ColourScheme>Colour</ColourScheme>
+  <TablePosition>Auto</TablePosition>
+  <Graph2Position>Auto</Graph2Position>
+  <MeasurementType>Auto</MeasurementType>
+  <DataFiltering>Auto</DataFiltering>
+</GraphSetupClass>

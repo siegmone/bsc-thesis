@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ProjectClass xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <ClassHeader ID="ProjectClass" Ver="1" Name="diodo" />
+  <FileHeader Username="Simone Vortice" CreationDate="2023-11-29T16:41:29.5700548+01:00" LastModDate="2023-11-29T16:41:29.6169173+01:00" LastSaveLocation="C:\Users\Simone Vortice\Documents\diodo\diodo\proj.info">
+    <FileType>ProjectInfoFile</FileType>
+  </FileHeader>
+  <Name>diodo</Name>
+  <Mode>ECS</Mode>
+  <Comment>first test with diode</Comment>
+  <RemoteEquipmentFiles />
+  <RemoteExperimentFolders />
+</ProjectClass>

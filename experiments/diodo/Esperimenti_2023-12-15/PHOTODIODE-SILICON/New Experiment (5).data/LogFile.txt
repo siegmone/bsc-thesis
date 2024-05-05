@@ -1,0 +1,13 @@
+﻿0	00:00:00.000	XM-studio ECS 3.5.8026    Experiment Start time: 2023-12-15T18:59:07
+0	00:00:00.000	Solartron XMA PSTAT1MS s/n:379910. Firmware 04.01.02, 04.01.02. Calibrated XM-Wokm-UK-, 14-Jan-2019. XM FRA1MHz. Firmware 01.06.00, 04.01.01. 
+0	00:00:00.000	User Action: Stop Experiment
+0	00:00:00.000	Error Stopping Experiment:
+0	00:00:00.000	Exception occured:
+0	00:00:00.000	Exception details. Level 1
+0	00:00:00.000	Message:
+0	00:00:00.000	No response to command
+0	00:00:00.000	Stack Trace:
+0	00:00:00.000	   at SolartronAnalytical.CommsLibrary.SA2087.Instrument2087.SendCommand(CommandBase command)
+   at SolartronAnalytical.CommsLibrary.SA2087.Instrument2087.SendCommand(Command2087Base command)
+   at SolartronAnalytical.ModulabWorkspace.EquipmentSetup.InstrumentCore.StopExperiment()
+0	00:00:00.000	

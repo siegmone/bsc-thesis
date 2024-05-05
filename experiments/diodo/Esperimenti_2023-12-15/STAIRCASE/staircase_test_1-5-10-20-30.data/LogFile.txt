@@ -1,0 +1,19 @@
+﻿0	00:00:00.000	XM-studio ECS 3.5.8026    Experiment Start time: 2023-12-15T14:22:03
+0	00:00:00.000	Solartron XMA PSTAT1MS s/n:379910. Firmware 04.01.02, 04.01.02. Calibrated XM-Wokm-UK-, 14-Jan-2019. XM FRA1MHz. Firmware 01.06.00, 04.01.01. 
+0	00:00:00.666	Experiment Progress: 1:0,0,0,0,0,0,0,0:0
+0	00:00:00.666	Range change: Current	6
+0	00:00:00.666	Range change: Voltage	1
+0	00:01:57.999	Range change: Voltage	2
+0	00:02:07.999	Experiment Progress: 2:0,0,0,0,0,0,0,0:0
+0	00:02:07.999	Range change: Voltage	1
+0	00:04:05.333	Range change: Voltage	2
+0	00:04:15.333	Experiment Progress: 3:0,0,0,0,0,0,0,0:0
+0	00:04:15.333	Range change: Voltage	1
+0	00:06:12.666	Range change: Voltage	2
+0	00:06:22.666	Experiment Progress: 4:0,0,0,0,0,0,0,0:0
+0	00:06:22.666	Range change: Voltage	1
+0	00:08:19.999	Range change: Voltage	2
+0	00:08:29.999	Experiment Progress: 5:0,0,0,0,0,0,0,0:0
+0	00:08:29.999	Range change: Voltage	1
+0	00:10:27.332	Range change: Voltage	2
+0	00:10:37.332	Experiment Ended
