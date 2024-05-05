@@ -24,7 +24,7 @@ def main():
         for csv_file in csv_files:
             bias = str(csv_file.split('/')[-1].split('.')[0]).removesuffix("mV")
             f, Z, Z_mag, theta, flag = get_impedance_data(csv_file)
-            print_raw_csv(csv_file, f"clean_raw/{diode}-{bias}")
+            print_raw_csv(f"{csv_file}.csv", f"clean_raw/{diode}-{bias}")
             Z_real, Z_imag = Z.real, Z.imag
             if flag:
                 continue
