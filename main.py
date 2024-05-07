@@ -12,7 +12,7 @@ def main():
     BIAS_SCAN = "BIAS_SCAN"
     CHARACTERISTIC = "CHARACTERISTIC"
     date = "2024-01-15"
-    diodes = ["1N4001", "1N4002", "1N4003", "1N4007"]
+    diodes = ["1N4007"]
 
     f_fit = np.logspace(-1, 8, 10000)
 
