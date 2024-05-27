@@ -1,0 +1,49 @@
+<mxfile host="Electron" modified="2024-05-14T10:55:27.531Z" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/24.4.0 Chrome/120.0.6099.291 Electron/28.3.1 Safari/537.36" etag="FvuYpoX2__K-eG0j_zvw" version="24.3.1" type="device">
+  <diagram id="C5RBs43oDa-KdzZeNtuy" name="Page-1">
+    <mxGraphModel dx="683" dy="420" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="WIyWlLk6GJQsqaUBKTNV-0" />
+        <mxCell id="WIyWlLk6GJQsqaUBKTNV-1" parent="WIyWlLk6GJQsqaUBKTNV-0" />
+        <mxCell id="-b_joQs19vrftn2sYfMz-7" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="WIyWlLk6GJQsqaUBKTNV-1" source="-b_joQs19vrftn2sYfMz-0" target="-b_joQs19vrftn2sYfMz-6" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="-b_joQs19vrftn2sYfMz-0" value="Misure" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Verdana;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="80" y="100" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="-b_joQs19vrftn2sYfMz-9" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="WIyWlLk6GJQsqaUBKTNV-1" source="-b_joQs19vrftn2sYfMz-6" target="-b_joQs19vrftn2sYfMz-8" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="-b_joQs19vrftn2sYfMz-6" value="CNLS &lt;i&gt;CUSTOM&lt;/i&gt;&amp;nbsp;FIT" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Times New Roman;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="240" y="100" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="-b_joQs19vrftn2sYfMz-11" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="WIyWlLk6GJQsqaUBKTNV-1" source="-b_joQs19vrftn2sYfMz-8" target="-b_joQs19vrftn2sYfMz-10" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="-b_joQs19vrftn2sYfMz-8" value="MINUIT" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Times New Roman;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="240" y="220" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="-b_joQs19vrftn2sYfMz-10" value="Stima dei Parametri" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Times New Roman;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="400" y="220" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="-b_joQs19vrftn2sYfMz-15" value="&lt;div style=&quot;&quot;&gt;&lt;font&gt;Stima dei parametri eseguita con un fit simultaneo del modulo dell&#39;impedenza e della fase con un codice da me sviluppato.&lt;/font&gt;&lt;/div&gt;" style="shape=process;html=1;backgroundOutline=1;labelBorderColor=none;textShadow=0;labelBackgroundColor=none;whiteSpace=wrap;align=center;fontFamily=Times New Roman;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="381" y="77.5" width="210" height="105" as="geometry" />
+        </mxCell>
+        <mxCell id="-b_joQs19vrftn2sYfMz-16" value="" style="endArrow=none;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;dashed=1;" parent="WIyWlLk6GJQsqaUBKTNV-1" source="-b_joQs19vrftn2sYfMz-6" target="-b_joQs19vrftn2sYfMz-15" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="400" y="290" as="sourcePoint" />
+            <mxPoint x="450" y="240" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="vR-Rx5WuUoIbiiUwM663-2" value="&lt;div style=&quot;&quot;&gt;Ho utilizzato MINUIT* per avere una conferma della stima dei parametri e in piu&#39; ottenere l&#39;errore su di essi, cosa non possibile col minimizzatore precedente.&lt;/div&gt;" style="shape=process;html=1;backgroundOutline=1;labelBorderColor=none;textShadow=0;labelBackgroundColor=none;whiteSpace=wrap;align=center;fontFamily=Times New Roman;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="10" y="197.5" width="210" height="105" as="geometry" />
+        </mxCell>
+        <mxCell id="vR-Rx5WuUoIbiiUwM663-3" value="" style="endArrow=none;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;dashed=1;" parent="WIyWlLk6GJQsqaUBKTNV-1" source="vR-Rx5WuUoIbiiUwM663-2" target="-b_joQs19vrftn2sYfMz-8" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="180" y="370" as="sourcePoint" />
+            <mxPoint x="230" y="320" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

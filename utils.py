@@ -77,7 +77,7 @@ def print_raw_csv(src, dest):
 
 def params_to_json(filepath, diode, bias, model, p, sigma_p):
     p_l = list(p)
-    sigma_p_l = list(p)
+    sigma_p_l = list(sigma_p)
     exists = False
     if os.path.exists(filepath):
         # Load JSON data from file
@@ -113,6 +113,72 @@ def params_to_json(filepath, diode, bias, model, p, sigma_p):
     data[diode][bias][model.name]["errors"] = sigma_p_l
     with open(filepath, "w") as json_file:
         json.dump(data, json_file, indent=4)
+
+
+def get_diode_capacitance(filepath, valids=None):
+    valids = list(valids)
+    with open(filepath, "r") as json_file:
+        data = json.load(json_file)
+    d = {}
+    for diode in data:
+        biases = []
+        cp1s = []
+        cp2s = []
+        diode_data = data[diode]
+        for bias in diode_data:
+            bias = bias.removesuffix("mV")
+            if int(bias) not in valids:
+                continue
+            bias_data = diode_data[bias]
+            biases.append(int(bias))
+            for model in bias_data:
+                model_data = bias_data[model]
+                names = model_data["params"]
+                values = model_data["values"]
+                errors = model_data["errors"]
+                idx1, idx2 = names.index("Cp1"), names.index("Cp2")
+                cp1, cp2 = values[idx1], values[idx2]
+                condition = cp1 > cp2
+                cp1s.append(cp1 * condition + (1 - condition) * cp2)
+                condition = not condition
+                cp2s.append(cp1 * condition + (1 - condition) * cp2)
+        d[diode] = (biases, cp1s, cp2s)
+    return d
+
+
+def get_diode_res(filepath, valids=None):
+    valids = list(valids)
+    with open(filepath, "r") as json_file:
+        data = json.load(json_file)
+    d = {}
+    for diode in data:
+        biases = []
+        rss = []
+        rp1s = []
+        rp2s = []
+        diode_data = data[diode]
+        for bias in diode_data:
+            bias = bias.removesuffix("mV")
+            if int(bias) not in valids:
+                continue
+            bias_data = diode_data[bias]
+            biases.append(int(bias))
+            for model in bias_data:
+                model_data = bias_data[model]
+                names = model_data["params"]
+                values = model_data["values"]
+                errors = model_data["errors"]
+                idx1, idx2, idx3 = names.index("Rs"), names.index("Rp1"), names.index("Rp2")
+                rs, rp1, rp2 = values[idx1], values[idx2], values[idx3]
+                rss.append(rs)
+                condition = rp1 > rp2
+                rp1s.append(rp1 * condition + (1 - condition) * rp2)
+                condition = not condition
+                rp2s.append(rp1 * condition + (1 - condition) * rp2)
+        d[diode] = (biases, rss, rp1s, rp2s)
+    return d
+
+
 
 
 def filter_stats(stats, fix_bias=None, fix_model=None):
@@ -530,6 +596,8 @@ def get_vi_data(filepath):
         c_range = range_conv[cr]
         # 0.1% + 0.05% + 30 fA
         current_err[i] = (reading * 1e-3) + (c_range * 5e-4) + current_offset
+    voltage_err = np.abs(voltage_err)
+    current_err = np.abs(current_err)
     return voltage, current, voltage_err, current_err
 
 
